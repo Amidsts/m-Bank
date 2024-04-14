@@ -17,9 +17,12 @@ export class User {
   @Column()
   phoneNo: string
 
-  @Column()
+  @Column({default: 0})
   acctBal: number;
 
-  @Column()
+  @Column({nullable: true})
   lastLoginAt: Date
+
+  @Column()
+  createdAt: Date
 }

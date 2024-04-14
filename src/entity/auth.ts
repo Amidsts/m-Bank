@@ -25,12 +25,15 @@ export class Auth {
   @Column()
   txPin: string;
 
-  @Column({nullable: true})
-  BVN: string | null
+  @Column({ nullable: true })
+  BVN: string | null;
 
-  @Column({nullable: true})
-  fingerprintId: string | null
+  @Column({ nullable: true })
+  fingerprintId: string | null;
 
   @Column()
-  isSetupComplete: boolean
+  isSetupComplete: boolean;
+
+  @Column()
+  createdAt: Date;
 }
