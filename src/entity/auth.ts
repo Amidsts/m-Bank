@@ -31,7 +31,7 @@ export class Auth {
   @Column({ nullable: true })
   fingerprintId: string | null;
 
-  @Column()
+  @Column({default: false})
   isSetupComplete: boolean;
 
   @Column()

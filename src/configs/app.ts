@@ -3,14 +3,12 @@ import express, { Application, NextFunction, Response, Request } from "express";
 import helmet from "helmet";
 
 import { handleResponse } from "../utils/response";
+import authRouter from "../components/Auth/auth.routes";
+
 const app: Application = express();
 
-// export const initializeDatabase= async () => {};
-
 export const initializeMiddlewares = () => {
-  const allowedOrigins = [
-    `http://localhost:5173`,
-  ];
+  const allowedOrigins = [`http://localhost:5173`];
 
   const corsOptions = {
     origin: function (
@@ -51,13 +49,15 @@ export const initializeMiddlewares = () => {
       }
 
       return next();
-    })
+    });
 };
 
 export const initializeRoutes = () => {
-  app.get("/", (req, res) => {
-    res.json({ message: "welcome to Dave Cards" });
+  app.get("/v1", (req, res) => {
+    res.json({ message: "welcome to m!Bank" });
   });
+
+  app.use("/v1/auth", authRouter);
 
   app.all("*", (_req, res: Response) =>
     handleResponse({
@@ -67,7 +67,5 @@ export const initializeRoutes = () => {
     })
   );
 };
-
-
 
 export default app;

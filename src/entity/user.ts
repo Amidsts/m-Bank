@@ -12,17 +12,20 @@ export class User {
   lastName: string;
 
   @Column()
+  fullName: string;
+
+  @Column()
   email: string;
 
   @Column()
-  phoneNo: string
+  phoneNo: string;
 
-  @Column({default: 0})
+  @Column({ default: 0 })
   acctBal: number;
 
-  @Column({nullable: true})
-  lastLoginAt: Date
+  @Column({ nullable: true })
+  lastLoginAt: Date;
 
   @Column()
-  createdAt: Date
+  createdAt: Date;
 }

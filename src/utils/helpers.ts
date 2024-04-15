@@ -1,20 +1,16 @@
-import {v4 as uuidv4} from "uuid"
-import { Request } from "express";
-
+import { AppDataSource } from "../data-source";
 import { Auth } from "../entity/auth";
-import { User } from "../entity/user";
 
+export async function generateAcctNo() {
+  let acctNo = String(Math.floor(Math.random() * 9000000000) + 1000000000);
 
-export interface IRequest extends Request {
-  user?: User;
-  decoded?: IToken;
-  role?: string;
-  userAuth: Auth;
-  ebayToken?: string;
-  File?: any;
-}
+  let acctNoExist = await AppDataSource.manager.findBy(Auth, { acctNo });
 
-export interface IToken {
-  ref: typeof uuidv4;
-  role: string;
+  while (acctNoExist.length) {
+    acctNo = String(Math.floor(Math.random() * 9000000000) + 1000000000);
+
+    acctNoExist = await AppDataSource.manager.findBy(Auth, { acctNo });
+  }
+
+  return acctNo;
 }
