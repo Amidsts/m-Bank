@@ -12,6 +12,9 @@ const appConfig = {
   twilioAccountSid: env.TWILIO_ACCOUNT_SID,
   twilioAuthToken: env.TWILIO_AUTH_TOKEN,
   twilioPhoneNo: env.TWILIO_PHONE_NO,
+  mailgunApiKey: env.MAILGUN_API_KEY,
+  mailgunDomain: env.MAILGUN_DOMAIN,
+  mailgunAppEmail: env.MAILGUN_APP_EMAIL,
 };
 
 export default appConfig;

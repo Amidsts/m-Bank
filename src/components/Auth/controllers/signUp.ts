@@ -7,7 +7,12 @@ import { signUpSchema } from "../auth.validators";
 import { AppDataSource } from "../../../data-source";
 import { User } from "../../../entity/user";
 import { Auth } from "../../../entity/auth";
-import { generateAcctNo, generateToken, hashPassword } from "../../../utils/helpers";
+import {
+  generateAcctNo,
+  hashPassword,
+} from "../../../utils/helpers";
+import { newAcctNoSms } from "../../../configs/sms/templates";
+import { sendNewAccountNoMail } from "../../../configs/email/template";
 
 async function signupController(req: IRequest, res: Response) {
   const {
@@ -30,35 +35,34 @@ async function signupController(req: IRequest, res: Response) {
       });
 
     const acctNo = await generateAcctNo();
-    //hash password
 
-    const user = new User()
-    user.firstName = firstName
-    user.lastName = lastName
-    user.fullName = `${firstName} ${lastName}`
-    user.email = email
-    user.phoneNo = phoneNo
-    user.createdAt= new Date();
-    user.lastLoginAt = new Date()
+    const user = new User();
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.fullName = `${firstName} ${lastName}`;
+    user.email = email;
+    user.phoneNo = phoneNo;
+    user.createdAt = new Date();
+    user.lastLoginAt = new Date();
 
-    
-    const auth = new Auth()
-    auth.user = user
-    auth.password = await hashPassword(password)
-    auth.acctNo = acctNo
-    auth.txPin = txPin
-    auth.createdAt = new Date()
-
+    const auth = new Auth();
+    auth.user = user;
+    auth.password = await hashPassword(password);
+    auth.acctNo = acctNo;
+    auth.txPin = txPin;
+    auth.createdAt = new Date();
 
     await AppDataSource.transaction(async (manager) => {
-      await manager.save(user)
-      await manager.save(auth)
+      await manager.save(user);
+      await manager.save(auth);
     });
 
-    //send an sms (containing the account number) to the provided phone number and email
+    await newAcctNoSms(phoneNo, user.fullName, acctNo);
+    await sendNewAccountNoMail(email, user.fullName, acctNo)
+
     return handleResponse({
       res,
-      message: "Account created successfully"
+      message: "Account created successfully",
     });
   } catch (err) {
     handleResponse({

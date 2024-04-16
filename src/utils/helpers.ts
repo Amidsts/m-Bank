@@ -1,12 +1,29 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { Response } from "express";
 
 import { AppDataSource } from "../data-source";
 import { Auth } from "../entity/auth";
 import { IToken } from "./types";
 import appConfig from "../configs";
+import { handleResponse } from "./response";
 
 const { sessionLifeSpan, saltRounds, jwtSecret, hashPepper } = appConfig;
+
+export async function asyncWrapper(callback: () => Response, res: Response) {
+  try {
+    const response = callback();
+
+    return response
+  } catch (err) {
+    handleResponse({
+      res,
+      err,
+      message: `Internal Server Error:  ${err.message}`,
+      status: 500,
+    });
+  }
+}
 
 export async function generateAcctNo() {
   let acctNo = String(Math.floor(Math.random() * 9000000000) + 1000000000);
