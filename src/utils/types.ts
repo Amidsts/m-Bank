@@ -14,6 +14,5 @@ export interface IRequest extends Request {
 }
 
 export interface IToken {
-  ref: typeof uuidv4;
-  role: string;
+  ref: string
 }

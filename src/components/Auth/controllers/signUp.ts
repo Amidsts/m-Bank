@@ -7,7 +7,7 @@ import { signUpSchema } from "../auth.validators";
 import { AppDataSource } from "../../../data-source";
 import { User } from "../../../entity/user";
 import { Auth } from "../../../entity/auth";
-import { generateAcctNo } from "../../../utils/helpers";
+import { generateAcctNo, generateToken, hashPassword } from "../../../utils/helpers";
 
 async function signupController(req: IRequest, res: Response) {
   const {
@@ -30,6 +30,7 @@ async function signupController(req: IRequest, res: Response) {
       });
 
     const acctNo = await generateAcctNo();
+    //hash password
 
     const user = new User()
     user.firstName = firstName
@@ -38,13 +39,16 @@ async function signupController(req: IRequest, res: Response) {
     user.email = email
     user.phoneNo = phoneNo
     user.createdAt= new Date();
+    user.lastLoginAt = new Date()
 
+    
     const auth = new Auth()
     auth.user = user
-    auth.password = password
+    auth.password = await hashPassword(password)
     auth.acctNo = acctNo
     auth.txPin = txPin
     auth.createdAt = new Date()
+
 
     await AppDataSource.transaction(async (manager) => {
       await manager.save(user)
@@ -52,10 +56,9 @@ async function signupController(req: IRequest, res: Response) {
     });
 
     //send an sms (containing the account number) to the provided phone number and email
-
     return handleResponse({
       res,
-      message: "Account created successfully",
+      message: "Account created successfully"
     });
   } catch (err) {
     handleResponse({
@@ -74,4 +77,5 @@ export default signupController;
  * send an sms (of the account number) to the registered phone number
  * request for multifactor authentication (register fingerprint)
  * if MFA is not set, account issetupcomplete is false
+ * user cannot login until he set up MFA with fingerprint
  */
