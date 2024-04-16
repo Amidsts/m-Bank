@@ -11,7 +11,7 @@ import {
   generateAcctNo,
   hashPassword,
 } from "../../../utils/helpers";
-import { newAcctNoSms } from "../../../configs/sms/templates";
+import { sendNewAcctNoSms } from "../../../configs/sms/templates";
 import { sendNewAccountNoMail } from "../../../configs/email/template";
 
 async function signupController(req: IRequest, res: Response) {
@@ -57,8 +57,8 @@ async function signupController(req: IRequest, res: Response) {
       await manager.save(auth);
     });
 
-    await newAcctNoSms(phoneNo, user.fullName, acctNo);
-    await sendNewAccountNoMail(email, user.fullName, acctNo)
+    await sendNewAcctNoSms(phoneNo, user.fullName, acctNo);
+    // await sendNewAccountNoMail(email, user.fullName, acctNo)
 
     return handleResponse({
       res,

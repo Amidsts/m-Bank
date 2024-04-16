@@ -1,6 +1,6 @@
 import sendSms from ".";
 
-export async function newAcctNoSms(
+export async function sendNewAcctNoSms(
   receiverNo: string,
   name: string,
   acctNo: string
