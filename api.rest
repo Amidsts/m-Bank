@@ -12,6 +12,6 @@ Content-Type: application/json
     "lastName": "James",
     "email": "amyJames@gmail.com",
     "password": "army89$",
-    "phoneNo": "+2347064325528",
+    "phoneNo": "2347064325528",
     "txPin": "1077"
   }

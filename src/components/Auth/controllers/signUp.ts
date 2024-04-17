@@ -25,41 +25,49 @@ async function signupController(req: IRequest, res: Response) {
   }: z.infer<typeof signUpSchema> = req.body;
 
   try {
-    const userExist = await AppDataSource.manager.findBy(User, { email });
+    // const userExist = await AppDataSource.manager.findBy(User, { email });
 
-    if (userExist.length)
-      return handleResponse({
-        res,
-        message: "Account already exists, Login instead please",
-        status: 409,
-      });
+    // if (userExist.length)
+    //   return handleResponse({
+    //     res,
+    //     message: "Account already exists, Login instead please",
+    //     status: 409,
+    //   });
 
-    const acctNo = await generateAcctNo();
+    // const acctNo = await generateAcctNo();
 
-    const user = new User();
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.fullName = `${firstName} ${lastName}`;
-    user.email = email;
-    user.phoneNo = phoneNo;
-    user.createdAt = new Date();
-    user.lastLoginAt = new Date();
+    // const user = new User();
+    // user.firstName = firstName;
+    // user.lastName = lastName;
+    // user.fullName = `${firstName} ${lastName}`;
+    // user.email = email;
+    // user.phoneNo = phoneNo;
+    // user.createdAt = new Date();
+    // user.lastLoginAt = new Date();
 
-    const auth = new Auth();
-    auth.user = user;
-    auth.password = await hashPassword(password);
-    auth.acctNo = acctNo;
-    auth.txPin = txPin;
-    auth.createdAt = new Date();
+    // const auth = new Auth();
+    // auth.user = user;
+    // auth.password = await hashPassword(password);
+    // auth.acctNo = acctNo;
+    // auth.txPin = txPin;
+    // auth.createdAt = new Date();
 
-    await AppDataSource.transaction(async (manager) => {
-      await manager.save(user);
-      await manager.save(auth);
-    });
+    // await AppDataSource.transaction(async (manager) => {
+    //   await manager.save(user);
+    //   await manager.save(auth);
+    // });
 
-    await sendNewAcctNoSms(phoneNo, user.fullName, acctNo);
+    await sendNewAcctNoSms(phoneNo, "user.fullName", "acctNo");
     // await sendNewAccountNoMail(email, user.fullName, acctNo)
 
+    console.log({
+      firstName,
+      lastName,
+      email,
+      password,
+      phoneNo,
+      txPin,
+    });
     return handleResponse({
       res,
       message: "Account created successfully",

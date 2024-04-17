@@ -1,0 +1,1 @@
+{"version":3,"file":"signIn.js","sourceRoot":"src/","sources":["components/Auth/controllers/signIn.ts"],"names":[],"mappings":"AAAA,sBAAsB;AACtB,wBAAwB;AAExB,4FAA4F","sourcesContent":["//login with password \n//login with fingerprint\n\n//NOTE: if a user lastLogin at is greater than 3days send OTP code and ask them to verify it"]}
