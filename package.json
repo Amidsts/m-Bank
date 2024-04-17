@@ -7,7 +7,9 @@
     "dev": "ts-node-dev --transpile-only --respawn --exit-child --clear  src/index.ts",
     "build": "tsc",
     "start:dev": "npm run build && node dist/index.js",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "migration:generate": "typeorm-ts-node-commonjs migration:generate ${MIGRATION_DIR} -d ${DATA_SOURCE_DIR}",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d ./src/data-source.ts"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +34,7 @@
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/uuid": "^9.0.8",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.3.2"
   }

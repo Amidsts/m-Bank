@@ -9,9 +9,10 @@ exports.AppDataSource = new typeorm_1.DataSource({
     username: "root",
     password: "root",
     database: "mBank",
-    synchronize: true,
+    synchronize: false,
     entities: ["src/entity/*.ts"],
     subscribers: [],
-    migrations: ["src/migration/**/*.ts"],
+    migrations: ["src/migrations/**/*.ts"],
+    migrationsTableName: "mBank_migration"
 });
 //# sourceMappingURL=data-source.js.map

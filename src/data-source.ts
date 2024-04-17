@@ -7,8 +7,9 @@ export const AppDataSource = new DataSource({
   username: "root",
   password: "root",
   database: "mBank",
-  synchronize: true,
+  synchronize: false,
   entities: ["src/entity/*.ts"],
   subscribers: [],
-  migrations: ["src/migration/**/*.ts"],
+  migrations: ["src/migrations/**/*.ts"],
+  migrationsTableName: "mBank_migration"
 });
